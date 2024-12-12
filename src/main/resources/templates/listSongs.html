@@ -3,67 +3,48 @@
 <head>
     <meta charset="utf-8">
     <title>Songs Homepage - Welcome to My Music Store</title>
-    <style type="text/css">
-        body {
-            width: 800px;
-            margin: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        button {
-            margin: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
 </head>
 <body>
 <header>
     <h1>Welcome to My Music Store</h1>
 </header>
 <main>
-    <h2>All Songs</h2>
-
-    <div th:if="${error}">
-        <p th:text="${error}"></p>
-    </div>
-
-    <table>
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Genre</th>
-            <th>Release Year</th>
-            <th>Album</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="song : ${songList}">
-            <td th:text="${song.getTitle()}"></td>
-            <td th:text="${song.getGenre()}"></td>
-            <td th:text="${song.getReleaseYear()}"></td>
-            <td th:text="${song.album != null ? song.album.title : 'No Album'}"></td>
-            <td>
-                <a th:href="@{/songs/edit/{songId}(songId=${song.id})}">
-                    <button>Edit</button>
-                </a>
-                <a th:href="@{/songs/delete/{songId}(songId=${song.id})}">
-                    <button>Delete</button>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <a href="/songs/add">
-        <button>Add New Song</button>
-    </a>
+    <h2>Choose a song:</h2>
+    <form th:method="POST" th:action="@{/songs}">
+        <table>
+            <thead>
+            <tr>
+                <th>Select</th>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Release Year</th>
+                <th>Album</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="song : ${songs}">
+                <td>
+                    <input type="radio" name="songRadio" th:id="${song.getId()}" th:value="${song.getId()}">
+                </td>
+                <td th:text="${song.getTitle()}"></td>
+                <td th:text="${song.getGenre()}"></td>
+                <td th:text="${song.getReleaseYear()}"></td>
+                <td th:text="${song.getAlbum().getName()}"></td>
+                <td>
+                    <a th:href="@{/songs/edit-form/{id}(id=${song.getId()})}" >Edit</a>
+                </td>
+                <td>
+                    <a th:href="@{/songs/delete/{id}(id=${song.getId()})}" >Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="/songs/add-form">Add New Song</a>
+    </form>
 </main>
 </body>
 </html>

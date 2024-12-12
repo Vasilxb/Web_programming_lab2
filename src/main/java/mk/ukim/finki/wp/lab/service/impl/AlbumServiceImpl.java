@@ -1,6 +1,5 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
-import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.repository.AlbumRepository;
 import mk.ukim.finki.wp.lab.service.AlbumService;
@@ -19,13 +18,14 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> findAll() {
-        return albumRepository.findAll();  // Return all albums
+        return albumRepository.findAll();
     }
 
+
     @Override
-    public Optional<Album> findById(Long albumId) {
-        return DataHolder.albumList.stream()
-                .filter(album -> album.getId().equals(albumId)) // Find the album by ID
+    public Optional<Album> findById(Long id) {
+        return findAll().stream()
+                .filter(album -> album.getId().equals(id))
                 .findFirst();
     }
 

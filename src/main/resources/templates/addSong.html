@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Add New Song</title>
+    <meta charset="UTF-8">
+    <title>Add new song</title>
 </head>
 <body>
-<h1 th:text="${song != null ? 'Edit Song' : 'Add New Song'}"></h1>
-
-<form th:action="@{${song != null ? '/songs/edit/' + song.id : '/songs/add-form'}}" method="POST">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" th:value="${song != null ? song.title : ''}" required><br>
-
-    <label for="trackId">Track ID:</label>
-    <input type="text" id="trackId" name="trackId" th:value="${song != null ? song.trackId : ''}" required><br>
-
-    <label for="genre">Genre:</label>
-    <input type="text" id="genre" name="genre" th:value="${song != null ? song.genre : ''}" required><br>
-
-    <label for="releaseYear">Release Year:</label>
-    <input type="number" id="releaseYear" name="releaseYear" th:value="${song != null ? song.releaseYear : ''}" required><br>
-
-    <label for="album">Album:</label>
-    <select name="albumId" id="album" required>
-        <option value="" disabled selected>Select an Album</option>
-        <th:block th:each="album : ${albumList}">
-            <option th:value="${album.id}" th:text="${album.title}"
-                    th:selected="${song != null && song.album.id == album.id ? 'selected' : ''}"></option>
-        </th:block>
-    </select><br>
-
-    <input type="submit" value="${song != null ? 'Save Changes' : 'Add Song'}">
+<form th:method="POST" th:action="@{${song != null} ? '/songs/edit/' + ${song.id} : '/songs/add'}">
+    <input id="trackId" type="hidden" name="trackId" th:value="${song != null ? song.trackId : ''}">
+    <div class="form-group">
+        <label for="title">Song title</label>
+        <input type="text" class="form-control" id="title" name="title" th:value="${song != null ? song.title : ''}" required placeholder="Enter song title">
+    </div>
+    <div class="form-group">
+        <label for="genre">Genre</label>
+        <input type="text" class="form-control" id="genre" name="genre" th:value="${song != null ? song.genre : ''}" placeholder="Genre">
+    </div>
+    <div class="form-group">
+        <label for="releaseYear">Release year</label>
+        <input type="text" class="form-control" id="releaseYear" name="releaseYear" th:value="${song != null ? song.releaseYear : ''}" placeholder="Release year">
+    </div>
+    <div class="form-group">
+        <label>Album</label>
+        <select name="albumId" class="form-control">
+            <option th:each="album : ${albums}" th:value="${album.id}" th:text="${album.name}"></option>
+        </select>
+    </div>
+    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+    <a type="button" class="btn btn-primary" href="/songs">Back</a>
 </form>
-
 </body>
 </html>

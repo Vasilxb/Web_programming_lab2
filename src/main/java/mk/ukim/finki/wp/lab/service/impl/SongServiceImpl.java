@@ -4,7 +4,6 @@ import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.repository.SongRepository;
-import mk.ukim.finki.wp.lab.service.AlbumService;
 import mk.ukim.finki.wp.lab.service.SongService;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,9 @@ import java.util.Optional;
 public class SongServiceImpl implements SongService {
 
     private final SongRepository songRepository;
-    private final AlbumService albumService;
 
-    public SongServiceImpl(SongRepository songRepository, AlbumService albumService) {
+    public SongServiceImpl(SongRepository songRepository ) {
         this.songRepository = songRepository;
-        this.albumService = albumService;
     }
 
     @Override
@@ -28,43 +25,33 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<Song> findAll() {
-        return songRepository.findAll();
-    }
-
-    @Override
-    public Optional<Song> findById(Long songId) {
-        return songRepository.findById(songId);
+    public Artist addArtistToSong(Artist artist, Song song) {
+        return songRepository.addArtistToSong(artist, song);
     }
 
     @Override
     public Song findByTrackId(String trackId) {
-        return songRepository.findByTrackId(trackId)
-                .orElseThrow(() -> new RuntimeException("Song not found"));
+        Optional<Song> song = songRepository.findByTrackId(trackId);
+
+        return song.orElse(null);
     }
 
     @Override
-    public void saveSong(Song song) {
-        songRepository.save(song);
+    public Song findById(Long id) {
+        Optional<Song> song = songRepository.findById(id);
+
+        return song.orElse(null);
     }
 
     @Override
-    public void deleteSongById(Long id) {
+    public Song saveSong(String trackId, String title, String genre, int releaseYear, Album album) {
+        Song song = new Song(trackId, title, genre, releaseYear, album);
+        return songRepository.save(song);
+    }
+
+    @Override
+    public void deleteSong(Long id) {
         songRepository.deleteById(id);
     }
-
-    @Override
-    public Album getAlbumById(Long albumId) {
-        return albumService.findById(albumId)
-                .orElseThrow(() -> new RuntimeException("Album not found"));
-    }
-
-    @Override
-    public Artist addArtistToSong(Artist artist, Song song) {
-        song.addPerformer(artist);
-        saveSong(song);
-        return artist;
-    }
-
 
 }

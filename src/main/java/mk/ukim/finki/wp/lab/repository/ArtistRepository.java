@@ -9,25 +9,14 @@ import java.util.Optional;
 @Repository
 public class ArtistRepository {
 
-    // Find all artists
     public List<Artist> findAll() {
         return DataHolder.artistList;
     }
 
-    // Find artist by ID
     public Optional<Artist> findById(Long id) {
         return DataHolder.artistList.stream()
                 .filter(artist -> artist.getId().equals(id))
                 .findFirst();
     }
 
-    // Save new artist or update existing one
-    public void save(Artist artist) {
-        DataHolder.artistList.add(artist);
-    }
-
-    // Delete an artist
-    public void delete(Long id) {
-        DataHolder.artistList.removeIf(artist -> artist.getId().equals(id));
-    }
 }

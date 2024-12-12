@@ -4,8 +4,8 @@ import mk.ukim.finki.wp.lab.model.Artist;
 import java.util.List;
 
 public interface ArtistService {
-    List<Artist> findAll();
+    List<Artist> listArtists();
     Artist findById(Long id);
-    void save(Artist artist);
+
 }
 

@@ -15,9 +15,8 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
-import java.util.Optional;
 
-@WebServlet(name = "SongDetailsServlet", urlPatterns = "/servlet/songDetails")
+@WebServlet(name = "SongDetailsServlet", urlPatterns = "/songs/song-details")
 public class SongDetailsServlet extends HttpServlet {
     private final SpringTemplateEngine templateEngine;
     private final SongServiceImpl songService;
@@ -31,7 +30,8 @@ public class SongDetailsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Song s = songService.findAll().stream().findFirst().orElse(null);
+        Song s = songService.listSongs().stream().findFirst().orElse(null);
+
         IWebExchange iWebExchange = JakartaServletWebApplication
                 .buildApplication(req.getServletContext())
                 .buildExchange(req, resp);
@@ -44,12 +44,12 @@ public class SongDetailsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String trackId = req.getParameter("trackId");
         String artistId = req.getParameter("artistId");
-        Optional<Song> sOptional = songService.findById(Long.valueOf(trackId));
-        Song s = sOptional.orElse(null);
+        Song s = songService.listSongs().stream().findFirst().orElse(null);
 
-        if (s != null && artistId != null) {
+        if (trackId != null && artistId != null) {
+            s = songService.findByTrackId(trackId);
             Artist a = artistService.findById(Long.valueOf(artistId));
-            s.addPerformer(a);
+            s.getPerformers().add(a);
         }
 
         IWebExchange iWebExchange = JakartaServletWebApplication

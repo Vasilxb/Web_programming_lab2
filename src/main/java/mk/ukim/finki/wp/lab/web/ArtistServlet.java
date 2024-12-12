@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mk.ukim.finki.wp.lab.model.Artist;
-import mk.ukim.finki.wp.lab.service.impl.ArtistServiceImpl;
+import mk.ukim.finki.wp.lab.service.ArtistService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.web.IWebExchange;
@@ -15,27 +15,27 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet (name = "ArtistListServlet", urlPatterns = {"/servlet/artistList"})
+@WebServlet(urlPatterns = {"/artist"})
 public class ArtistServlet extends HttpServlet {
 
-    private final ArtistServiceImpl artistService;
     private final SpringTemplateEngine templateEngine;
+    private final ArtistService artistService;
 
-    public ArtistServlet(ArtistServiceImpl artistService, SpringTemplateEngine templateEngine) {
-        this.artistService = artistService;
+    public ArtistServlet(SpringTemplateEngine templateEngine, ArtistService artistService) {
         this.templateEngine = templateEngine;
+        this.artistService = artistService;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Artist> artistList;
-        artistList = artistService.findAll();
+        artistList = artistService.listArtists();
 
         IWebExchange iWebExchange = JakartaServletWebApplication
                 .buildApplication(req.getServletContext())
                 .buildExchange(req, resp);
         WebContext context = new WebContext(iWebExchange);
-        context.setVariable("artistList", artistList);
+        context.setVariable("artists", artistList);
         templateEngine.process("artistsList.html", context, resp.getWriter());
     }
 
@@ -43,10 +43,10 @@ public class ArtistServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String trackId;
         List<Artist> artistList;
-        artistList = artistService.findAll();
+        artistList = artistService.listArtists();
 
-        if (req.getParameter("id") != null) {
-            trackId = req.getParameter("id");
+        if (req.getParameter("songRadio") != null) {
+            trackId = req.getParameter("songRadio");
         } else {
             trackId = "-";
         }
@@ -56,7 +56,7 @@ public class ArtistServlet extends HttpServlet {
                 .buildExchange(req, resp);
         WebContext context = new WebContext(iWebExchange);
         context.setVariable("trackId", trackId);
-        context.setVariable("artistList", artistList);
+        context.setVariable("artists", artistList);
         templateEngine.process("artistsList.html", context, resp.getWriter());
     }
 }

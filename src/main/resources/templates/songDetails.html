@@ -14,7 +14,7 @@
   <h2 th:text="${entity.getReleaseYear()}">Year</h2>
   <h2>Performers:</h2>
   <ul>
-    <li th:each="artist : ${entity.getPerformers()}" th:text="${artist.getFirstName()} + ' ' + ${artist.getLastName()}" >Halsey</li>
+    <li th:each="artist : ${entity.getPerformers()}" th:text="${artist.getFirstName()} + ' ' + ${artist.getLastName()}" ></li>
   </ul>
 </section>
 

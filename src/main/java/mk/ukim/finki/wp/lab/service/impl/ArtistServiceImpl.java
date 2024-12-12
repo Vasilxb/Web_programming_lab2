@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArtistServiceImpl implements ArtistService {
@@ -19,19 +20,18 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<Artist> findAll() {
+    public List<Artist> listArtists() {
         return artistRepository.findAll();
     }
 
     @Override
     public Artist findById(Long id) {
-        return artistRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Artist not found"));
+        Optional<Artist> artist = artistRepository.findById(id);
+
+        return artist.orElse(null);
+
     }
 
-    @Override
-    public void save(Artist artist) {
-        artistRepository.save(artist);
-    }
 
 
 }
