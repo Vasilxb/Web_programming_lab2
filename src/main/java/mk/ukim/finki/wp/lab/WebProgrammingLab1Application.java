@@ -8,7 +8,6 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @ServletComponentScan
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class WebProgrammingLab1Application {
 
     public static void main(String[] args) {

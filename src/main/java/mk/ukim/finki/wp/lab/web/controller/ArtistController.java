@@ -26,9 +26,9 @@ public class ArtistController {
 
     @GetMapping("/artist/artist-list")
     public String showArtists(Model model) {
-        model.addAttribute("artistList", artistService.listArtists());
+        model.addAttribute("artistsList", artistService.listArtists());
 
-        return "listArtists";
+        return "artistsList";
     }
 
     @PostMapping("/artist/artist-list")
@@ -36,9 +36,9 @@ public class ArtistController {
         String trackId = (songRadio != null) ? songRadio : "-";
 
         model.addAttribute("trackId", trackId);
-        model.addAttribute("artistList", artistService.listArtists());
+        model.addAttribute("artistsList", artistService.listArtists());
 
-        return "listArtists";
+        return "artistsList";
     }
 
 }
