@@ -24,10 +24,10 @@ public class SongServiceImpl implements SongService {
         return songRepository.findAll();
     }
 
-    @Override
-    public Artist addArtistToSong(Artist artist, Song song) {
-        return songRepository.addArtistToSong(artist, song);
-    }
+//    @Override
+//    public Artist addArtistToSong(Artist artist, Song song) {
+//        return songRepository.addArtistToSong(artist, song);
+//    }
 
     @Override
     public Song findByTrackId(String trackId) {
@@ -45,7 +45,12 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public Song saveSong(String trackId, String title, String genre, int releaseYear, Album album) {
-        Song song = new Song(trackId, title, genre, releaseYear, album);
+        Song song=songRepository.findByTrackId(trackId).orElse(new Song());
+        song.setTrackId(trackId);
+        song.setTitle(title);
+        song.setGenre(genre);
+        song.setReleaseYear(releaseYear);
+        song.setAlbum(album);
         return songRepository.save(song);
     }
 

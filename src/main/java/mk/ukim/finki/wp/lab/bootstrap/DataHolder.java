@@ -25,11 +25,23 @@ public class DataHolder {
         artistList.add(new Artist(327L, "Slayyyter", "YYY", "Miss YYY no comma"));
 
 
-        albumList.add(new Album(1L, "Electra Heart", "Alt/Indie", "2012"));
-        albumList.add(new Album(2L, "The Best Damn Thing", "Pop punk", "2007"));
-        albumList.add(new Album(3L, "JOYRIDE", "Pop", "2024"));
-        albumList.add(new Album(4L, "The Greatest Impersonator", "Sad pop", "2024"));
-        albumList.add(new Album(5L, "No Comma", "Pop/Hyper-pop", "2024"));
+        Album albumM = new Album("Electra Heart", "Alt/Indie", "2012");
+        Album albumA = new Album("The Best Damn Thing", "Pop punk", "2007");
+        Album albumK = new Album("JOYRIDE", "Pop", "2024");
+        Album albumH = new Album("The Greatest Impersonator", "Sad pop", "2024");
+        Album albumS = new Album("No Comma", "Pop/Hyper-pop", "2024");
+
+        albumList.add(albumM);
+        albumList.add(albumA);
+        albumList.add(albumK);
+        albumList.add(albumH);
+        albumList.add(albumS);
+
+//        albumList.add(new Album(1L, "Electra Heart", "Alt/Indie", "2012"));
+//        albumList.add(new Album(2L, "The Best Damn Thing", "Pop punk", "2007"));
+//        albumList.add(new Album(3L, "JOYRIDE", "Pop", "2024"));
+//        albumList.add(new Album(4L, "The Greatest Impersonator", "Sad pop", "2024"));
+//        albumList.add(new Album(5L, "No Comma", "Pop/Hyper-pop", "2024"));
 
 
         songList.add(new Song("TR09", "Teen idle", "Alt/Indie", 2012, albumList.get(0)));
